@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사과 가져오기</title>
+</head>
+
+<body>
+    <p>
+        <button id="btnCount">사과 갯수 확인하기</button>
+        <button id="btnSteal">사과 가져오기</button>
+        <button id="btnBroadcast">갯수 알리기</button>
+    </p>
+    <p>
+        남은 사과는 <span id="txtCount"></span> 개 입니다.
+    </p>
+
+    <script>
+        const electron = require('electron');
+
+        const print = (num = 10) => document.getElementById('txtCount').innerText = num;
+
+        document.getElementById('btnCount').onclick = () => electron.ipcRenderer.send('reqCount');
+        document.getElementById('btnSteal').onclick = () => electron.ipcRenderer.send('reqSteal');
+        document.getElementById('btnBroadcast').onclick = () => electron.ipcRenderer.send('reqBroadcast');
+
+        electron.ipcRenderer.on('count', (e, count) => print(count));
+
+        print();
+    </script>
+</body>
+
+</html>
